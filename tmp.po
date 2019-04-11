@@ -1,0 +1,42 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2019-02-14 14:18+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=cp1252\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+msgid "SettingsTitle"
+msgstr "SkyPlay Einstellungen"
+
+msgid "LanguageSettings"
+msgstr "Sprache"
+
+msgid "StyleSettings"
+msgstr "Style"
+
+msgid "PrivacySettings"
+msgstr "Privacy"
+
+msgid "NewButton"
+msgstr "Neu"
+
+msgid "SaveButton"
+msgstr "Speichern"
+
+msgid "CancelButton"
+msgstr "Abbrechen"
+
+msgid "LanguageChangeRestart"
+msgstr "Um die Sprachänderungen zu übernehmen muss SkyPlay neugestartet werden.\n\nMöchten Sie jetzt neustarten?"
+
+msgid "MustRestart"
+msgstr "SkyPlay muss neugestartet werden!"
