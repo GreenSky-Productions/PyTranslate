@@ -2,16 +2,10 @@
 
 # PyTranslater
 
-is a easy to use Software for Translating you Python Project. It has only a few, but powerful functionalities which we will show here:
-* [Create new Pot File](README.md#Create-new-Pot-File)
-* [Open](README.md#Open)
-* [Editing](README.md#Editing)
-* [Save](README.md#Save)
-* [Export](README.md#Export)
-
+is a easy to use Software for Translating you Python Project which works with [gettext](https://docs.python.org/3/library/gettext.html). It has only a few, but powerful functionalities.
 
 ## Create new Pot File
-Select you Python Script or you Python Embeded File and scan it for [gettext]() entrys. It will create a .pot File and ask you to Open it for instant [editing](README.md#Editing).
+Select you Python Script or you Python Embeded File and scan it for [gettext](https://docs.python.org/3/library/gettext.html) entrys. It will create a .pot File and ask you to Open it for instant [editing](README.md#Editing).
 
 ## Open
 Open a .pot or .po File for editing it.
