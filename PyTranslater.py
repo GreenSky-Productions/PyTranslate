@@ -1,221 +1,239 @@
 from os import sys,system,remove,replace
-from tkinter import *
 import getopt
+import polib
+import base64
+from shutil import copyfile
+from tkinter import *
 from tkinter.messagebox import *
 from tkinter import filedialog
 from tkinter.ttk import *
-from shutil import copyfile
 
-class PyFileImport(Tk):
+args = sys.argv[1:]
 
-    def __init__(self,file=None):
-        Tk.__init__(self)
-        self.title("PY Translater")
-        self.geometry("1000x600")
-        self.ofile = file
-        self.msgid = 0
-        self.msgs = {}
-        self.content = []
-        self.createContent()
-        self.columnconfigure(1,weight=1)
-        self.rowconfigure(0,weight=1)
-        self.openPot(file) if file else None
-        
-    def createPot(self,readfile,saveFile):
-        system('pygettext.exe --no-location -d {} "{}"'.format(saveFile.replace(".pot",""),readfile))
-        
-    def openFile(self,file):
-        self.msgs.clear()
+class PyTranslater(Tk):
 
-        first = True
-        with open(file,"r") as _file:
-            for line in _file:
-                if "msgid" in line:
-                    if first:
-                        first = False
-                        continue
-                    nline = next(_file)
-                    id = line.split('"')[1]
-                    content = nline.split('"')[1]
-                    self.msgs[id] = content
-            _file.close()
-
-        self.ofile = file
-        self.title("Py Tranlater '{}'".format(self.ofile))
-        self.filemenu.entryconfig(2,state=NORMAL)
-        self.filemenu.entryconfig(3,state=NORMAL)
-        self.filemenu.entryconfig(4,state=NORMAL)
-        self.load()
-
-    def __openFile__(self,event=None):
-        readFile = filedialog.askopenfilename(title="Open POT or PO File",filetypes=(("Translation Files","*.pot *.po"),))
-        if readFile:
-            self.openPot(readFile)
-        self.load()
-
-
-    def isClosed(self,event=None):
-        askyesnocancel()
-
-    def closeFile(self):
+    def __init__(self,file=None,GUI=True):
+        self.oheader = None
         self.ofile = None
-        self.title("Py Tranlater".format(self.ofile))
+        self.saved = True
+        self.msgs  = polib.POFile()
 
-    def __createPotFile__(self,event=None):
-        readFile = filedialog.askopenfilename(title="Python File",filetypes=(("Py-File","*.py *.pyw"),))
-        saveFile = filedialog.asksaveasfilename(title="Save POT",filetypes=(("POT File","*.pot"),))
-        if readFile and saveFile:
-            self.createPot(readFile,saveFile)
-            if askyesno(title="Open POT File",message="Do you want to open the created POT file?"):
-                self.openPot(saveFile)
-            else:
-                showinfo(title="Finished",message="The POT File is successfully created.")
-
-
-        #C:\Users\p.seelk\Source\Repos\SPSettings\SPSettings
-
-    def __saveAsPoFile__(self,event=None):
-        filepath = filedialog.asksaveasfilename(title="Save Po",filetypes=(("Translation File","*.po"),),defaultextension=".po")
-        if filepath:
-            self.writeNewPo(filepath)
-            self.title("Py Translate '{}'".format(self.ofile))
-
-    def saveFile(self,event=None):
-        if self.ofile:
-            self.writeNewPo(self.ofile)
-            self.title("Py Translate '{}'".format(self.ofile))
-
-    def getNewMsgContent(self):
-        content = self.window.field.get(0.0,END)[:-1]
-        if content != self.msgs[self.msgid]:
-            self.title("Py Translate *'{}'".format(self.ofile))
-        self.msgs[self.msgid] = content
-        self.window.destroy()
-        print(content)
-        self.load()
-
-    def changeMsgContent(self,event=None):
-        curind     = self.lstMsgContent.curselection()
-        msgcont    = self.lstMsgContent.get(curind)[1:-1]
-        self.msgid = self.lstMsgId.get(curind)
-
-        self.window = Toplevel(self)
-        self.window.title(self.msgid)
-        self.window.columnconfigure(0,weight=1)
-        self.window.rowconfigure(1,weight=1)
-        self.window.attributes("-tool",1)
-        self.window.field = Text(self.window)
-        self.window.field.insert(END,msgcont)
-        self.window.field.grid(sticky=N+E+S+W)
-        self.window.ok = Button(self.window,text="Okay",command=self.getNewMsgContent)
-        self.window.ok.grid(sticky=E+S)
-        self.window.after(200,self.window.field.focus_set)
-        self.window.mainloop()
-      
-    def poToMo(self,file):
-        self.writeNewPo("tmp.po")
-        system('msgfmt.exe tmp')
-        replace("tmp.mo",filepath)
-        remove("tmp.po")
-
-    def readHeader(self):
-        with open(self.ofile,"r") as file:
-            header = "".join(next(file) for x in range(15))
-            file.close()
-        return header
-
-    def writeNewPo(self,file):
-        header = self.readHeader()
-        with open(file,"w") as file:
-            file.write(header)
-            content = ""
-            for k,v in self.msgs.items():
-                file.write("""
-msgid "{}"
-msgstr "{}"
-""".format(k,v))
-            file.close()
-
-    def export(self,event=None):
-        filepath = filedialog.asksaveasfilename(title="Export as MO",filetypes=(("Compiled Translation File","*.mo"),),defaultextension=".mo")
-        if filepath:
-            self.poToMo(filepath)
-            
-    def createContent(self):
+        
+        self.GUI = GUI
+        Tk.__init__(self)
+        self.title("PyTranslater")
+        try:
+            self.iconbitmap("./PyTranslater.ico")
+        except Exception as err:
+            pass
+        self.protocol("WM_DELETE_WINDOW",self.__onClose__)
+        self.rowconfigure(0,weight=1)
+        self.columnconfigure(1,weight=1)
+        self.__createGUIContent__()
+        if file:
+                self.openFile(file)
+        if GUI:
+            self.mainloop()
+        "For IDE, cause VS is stupid"
+        
+    def __createGUIContent__(self):
         self.menu = Menu(tearoff=0)
+
         self.filemenu = Menu(tearoff=0)
-
-        self.filemenu.add_command(label="Create new POT File",command=self.newPotFile,accelerator="Ctrl+N")
-        self.bind("<Control-n>",self.newPotFile)
-        self.filemenu.add_command(label="Open",command=self.openPotFile,accelerator="Ctrl+O")
-        self.bind("<Control-o>",self.openPotFile)
-        self.filemenu.add_command(label="Save",command=self.savePoFile,accelerator="Ctrl+S",state=DISABLED)
-        self.bind("<Control-s>",self.savePoFile)
-        self.filemenu.add_command(label="Save as",command=self.saveAsPoFile,accelerator="Shift+Ctrl+S",state=DISABLED)
-        self.bind("<Control-S>",self.saveAsPoFile)
-        self.filemenu.add_command(label="Export",command=self.export,accelerator="Ctrl+E",state=DISABLED)
-        self.bind("<Control-e>",self.export)
-        self.filemenu.add_command(label="Close",command=self.destroy,accelerator="Ctrl+Q",state=DISABLED)
+        self.filemenu.add_command(label="Create new POT File",command=self.__createTemplate__,accelerator="Ctrl+N")
+        self.filemenu.add_command(label="Open",command=self.__openFile__,accelerator="Ctrl+O")
+        self.filemenu.add_command(label="Save",command=self.__save__,accelerator="Ctrl+S",state=DISABLED)
+        self.filemenu.add_command(label="Save as",command=self.__saveAs__,accelerator="Shift+Ctrl+S",state=DISABLED)
+        self.filemenu.add_command(label="Export",command=self.__export__,accelerator="Ctrl+E",state=DISABLED)
+        self.filemenu.add_command(label="Quit",command=self.destroy,accelerator="Ctrl+Q",state=DISABLED)
+        self.bind("<Control-n>",self.__createTemplate__)
+        self.bind("<Control-o>",self.__openFile__)
+        self.bind("<Control-s>",self.__save__)
+        self.bind("<Control-S>",self.__saveAs__)
+        self.bind("<Control-e>",self.__export__)
         self.bind("<Control-q>",self.destroy)
-        self.menu.add_cascade(label="File",menu=self.filemenu)
-        #filemenu.add_command(label="Open POT")
 
+        self.menu.add_cascade(label="File",menu=self.filemenu)
         self.configure(menu=self.menu)
 
         self.lstmsgpan = Panedwindow(self,orient=HORIZONTAL)
         self.lstmsgpan.grid(row=0,column=0,sticky=N+W+E+S,columnspan=2)
         self.lstMsgId = Listbox(self.lstmsgpan)
+        self.lstMsgId.bind("<Double-Button-1>",self.__editMsgID__)
         self.lstmsgpan.add(self.lstMsgId)#self.lstMsgId.grid(row=0,column=0,sticky=N+W+E+S)
 
         self.lstMsgContent = Listbox(self.lstmsgpan)
-        self.lstMsgContent.bind("<Double-Button-1>",self.changeMsgContent)
+        self.lstMsgContent.bind("<Double-Button-1>",self.__editMsgContent__)
         self.lstmsgpan.add(self.lstMsgContent)#.grid(row=0,column=1,sticky=N+E+S+W)
+    
+    def createTemplate(self,pyfile,potfile):
+        "Create a POT File from a Python Script with gettext Strings"
+        system('pygettext.exe --no-location -d {} "{}"'.format(potfile.replace(".pot",""),pyfile))
 
-        #self.loadBtn = Button(self,text="Load",command=self.loadfile)
-        #self.loadBtn.grid(padx=5,pady=5,row=1,column=0,sticky=W+S)
+    class NewTemplate(Toplevel):
 
-        #self.expBtn = Button(self,text="Export",command=self.export)
-        #self.expBtn.grid(padx=5,pady=5,row=1,column=1,sticky=E+S)
+        def __init__(self,master):
+            Toplevel.__init__(self,master)
+            self.id = id
+            self.edit = edit
+            self.master = master
 
-    def load(self):
+            Toplevel.__init__(self,master)
+            self.title(self.id)
+            self.columnconfigure(0,weight=1)
+            self.rowconfigure(1,weight=1)
+            self.attributes("-tool",1)
+
+            self.field = Text(self)
+            self.field.insert(END,content)
+            self.field.grid(sticky=N+E+S+W)
+
+            self.ok = Button(self,text="Okay",command=self.__okay__)
+            self.ok.grid(sticky=E+S)
+            self.mainloop()
+
+    def __createTemplate__(self,*event):
+        
+        pyFilePH = filedialog.askopenfilename(title="Python File",filetypes=(("Py-File","*.py *.pyw"),("All-Files","*.*")))
+        if pyFilePH:
+            potFilePH = filedialog.asksaveasfilename(title="Save POT",filetypes=(("POT File","*.pot"),),defaultextension=".pot")
+            if potFilePH:
+                self.createTemplate(pyFilePH,potFilePH)
+                if askyesno(title="Open POT File",message="Do you want to open the created POT file?"):
+                    self.openFile(potFilePH)
+                    self.__refresh__()
+        "For IDE, cause VS is stupid"
+  
+    def openFile(self,filepath):
+        self.msgs = polib.pofile(filepath)
+        self.saved = True
+
+    def __openFile__(self,*event):
+        if not self.saved:
+            if not self.__unsaved__():
+                return 
+        filepath = filedialog.askopenfilename(title="Open POT or PO File",filetypes=(("Translation Files","*.pot *.po"),))
+        if filepath:
+            self.openFile(filepath)
+            self.__refresh__()
+        "For IDE, cause VS is stupid"
+
+
+    def save(self,filepath):
+        self.msgs.save(filepath)
+        self.saved = True
+
+    def __save__(self,*event):
+        if not self.saved:
+            self.save(self.ofile)
+            self.__refresh__()
+
+    def __saveAs__(self,*event):
+        if not self.saved:
+            filepath = filedialog.asksaveasfilename(title="Save as PO",filetypes=(("Translation File","*.po"),),defaultextension=".po")
+            if filepath:
+                self.save(filepath)
+                self.__refresh__()
+
+    def export(self,file):
+        self.msgs.save_as_mofile(file)
+
+    def __export__(self,*event):
+        filepath = filedialog.asksaveasfilename(title="Export as MO",filetypes=(("Compiled Translation File","*.mo"),),defaultextension=".mo")
+        if filepath:
+            self.export(filepath)
+            self.__refresh__()
+
+    def editContent(self,msgid,msg):
+        self.saved = False
+        print(msg)
+        self.msgs.find(msgid).msgstr = msg
+       
+    def editID(self,oldmsgid,newmsgid):
+        self.saved = False
+        if oldmsgid != "":
+            self.msgs.find(oldmsgid).msgid = newmsgid
+        else:
+            self.msgs.append(polib.POEntry(msgid=newmsgid,msgstr=""))
+        
+    def deleteItem(self,msgid):
+
+        self.msgs.remove(self.msgs.find(msgid))
+
+    class ContetEdit(Toplevel):
+        def __init__(self,master,id,content,edit):
+            "Window with Textfield"
+            self.id = id
+            self.edit = edit
+            self.master = master
+
+            Toplevel.__init__(self,master)
+            self.title(self.id)
+            self.columnconfigure(0,weight=1)
+            self.rowconfigure(1,weight=1)
+            self.attributes("-tool",1)
+
+            self.field = Text(self)
+            self.field.insert(END,content)
+            self.field.grid(columnspan=2,sticky=N+E+S+W)
+            
+            self.delete = Button(self,text="Delete",command=self.__delete__,state=NORMAL if id != "" else DISABLED)
+            self.delete.grid(row=1,column=0,sticky=W+S)
+
+            self.ok = Button(self,text="Okay",command=self.__okay__)
+            self.ok.grid(row=1,column=1,sticky=E+S)
+            self.mainloop()
+
+        def __okay__(self):
+            content = self.field.get(0.0,END)[:-1]
+            if content != "":
+                self.edit(self.id,content)
+                self.master.__refresh__()
+                self.destroy()
+
+        def __delete__(self):
+            self.master.deleteItem(self.id)
+            self.master.__refresh__()
+            self.destroy()
+    
+
+    def __editMsgContent__(self,*event):
+        contid  = self.lstMsgContent.curselection()
+        msgid   = self.lstMsgId.get(contid)
+        self.ContetEdit(self,msgid,self.msgs.find(msgid).msgstr,self.editContent)
+        
+    def __editMsgID__(self,*event):
+        id   = self.lstMsgId.curselection()
+        msgid   = self.lstMsgId.get(id)
+        msgid = msgid if msgid != self.lstMsgId.get(END) else ""
+        self.ContetEdit(self,msgid,msgid,self.editID)
+
+
+    def __refresh__(self,*event):
+        self.filemenu.entryconfig(2,state=DISABLED if self.saved else NORMAL)
+        self.filemenu.entryconfig(3,state=DISABLED if self.saved else NORMAL)
+        self.filemenu.entryconfig(4,state=NORMAL if self.saved else DISABLED)
+
         self.lstMsgId.delete(0,END)
-        #for wid in self.lstMsgContent.winfo_children():
-            #wid.destroy()
         self.lstMsgContent.delete(0,END)
-        for msgid in self.msgs.keys():
-            self.lstMsgId.insert(END,msgid)
-            self.lstMsgContent.insert(END,repr(self.msgs[msgid]))
-            #ent = Entry(self.lstMsgContent,style="T.TEntry")
-            #ent.insert(END,self.msgs[msgid])
-            #ent.grid(sticky=N+E+W)
-            #self.content.append(ent)
-            #self.lstMsgContent.add(ent)
-            #self.lstMsgContent.insert(END,Entry())
+        for msg in self.msgs:
+            self.lstMsgId.insert(END,msg.msgid)
+            self.lstMsgContent.insert(END,repr(msg.msgstr))
+        self.lstMsgId.insert(END,"+".center(10))
+
+    def __unsaved__(self,*event):
+        anwser = askyesnocancel(title="Save changes?",message="Do you want to save the file?")
+        if anwser:
+            self.save(self.ofile)
+        elif anwser == None:
+            return False
+        return True
+        
+    def __onClose__(self,*event):
+        if not self.saved:
+            if not self.__unsaved__():
+                return
+        self.destroy()
 
 
-paras =sys.argv[1:]
-#paras = ["potpo","C:\\Users\\p.seelk\\Desktop\\test.pot","C:\\Users\\p.seelk\\Desktop\\ausgabe.po"]
-#paras = ["editpo","C:\\Users\\p.seelk\\Desktop\\ausgabe.po",'world="Welt"']
-if paras:
-    if paras[0] == "potpo" and len(paras) >= 3:
-        pfi = PyFileImport()
-        pfi.openPot(paras[1])
-        pfi.writeNewPo(paras[2])
-    elif paras[0] == "pomo" and len(paras) >= 3:
-        pfi = PyFileImport()
-        pfi.poToMo(paras[2])
-
-    elif paras[0] == "editpo" and len(paras) >= 3:
-        pfi = PyFileImport()
-        pfi.openPot(paras[1])
-        print(pfi.ofile)
-        for para in paras[2:]:
-            msgid,msg = para.split("=")
-            pfi.msgs[msgid] = msg.replace('"',"")
-            print("Set",msgid,"to",msg)
-        pfi.savePoFile()
-    else:
-        print("No")
-else:
-    PyFileImport().mainloop()
-
+PyTranslater()
