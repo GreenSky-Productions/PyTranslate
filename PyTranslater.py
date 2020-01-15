@@ -1,4 +1,4 @@
-from os import sys,system,remove,replace
+from os import sys,system,remove,replace,path
 import getopt
 import polib
 import base64
@@ -7,7 +7,7 @@ from tkinter import *
 from tkinter.messagebox import *
 from tkinter import filedialog
 from tkinter.ttk import *
-
+import tempfile
 args = sys.argv[1:]
 
 class PyTranslater(Tk):
@@ -46,14 +46,21 @@ class PyTranslater(Tk):
         self.filemenu.add_command(label="Save as",command=self.__saveAs__,accelerator="Shift+Ctrl+S",state=DISABLED)
         self.filemenu.add_command(label="Export",command=self.__export__,accelerator="Ctrl+E",state=DISABLED)
         self.filemenu.add_command(label="Quit",command=self.destroy,accelerator="Ctrl+Q",state=DISABLED)
+
+        self.editmenu = Menu(tearoff=0)
+        self.editmenu.add_command(label="Add Entrys from other Script",command=self.__addViaImport__,accelerator="Ctrl+I")
+
         self.bind("<Control-n>",self.__createTemplate__)
         self.bind("<Control-o>",self.__openFile__)
         self.bind("<Control-s>",self.__save__)
         self.bind("<Control-S>",self.__saveAs__)
         self.bind("<Control-e>",self.__export__)
         self.bind("<Control-q>",self.destroy)
+        self.bind("<Control-i>",self.__addViaImport__)
+
 
         self.menu.add_cascade(label="File",menu=self.filemenu)
+        self.menu.add_cascade(label="Edit",menu=self.editmenu)
         self.configure(menu=self.menu)
 
         self.lstmsgpan = Panedwindow(self,orient=HORIZONTAL)
@@ -68,7 +75,9 @@ class PyTranslater(Tk):
     
     def createTemplate(self,pyfile,potfile):
         "Create a POT File from a Python Script with gettext Strings"
-        system('pygettext.exe --no-location -d {} "{}"'.format(potfile.replace(".pot",""),pyfile))
+        cmd = 'pygettext.exe --no-location -d {} "{}"'.format(potfile.replace(".pot",""),pyfile)
+        print(cmd)
+        system(cmd)
 
     class NewTemplate(Toplevel):
 
@@ -91,6 +100,21 @@ class PyTranslater(Tk):
             self.ok = Button(self,text="Okay",command=self.__okay__)
             self.ok.grid(sticky=E+S)
             self.mainloop()
+
+    def __addViaImport__(self,*event):
+        pyFilePH = filedialog.askopenfilename(title="Python File",filetypes=(("Py-File","*.py *.pyw"),("All-Files","*.*")))
+        if pyFilePH:
+            potFilePH = path.join(tempfile.gettempdir(),"TmpPyInstall.pot")
+            self.createTemplate(pyFilePH,potFilePH)
+            try:
+                for entry in polib.pofile(potFilePH):
+                    self.msgs.append(entry)
+                self.saved = False
+            except:
+                showerror(title="Failed to Import",message="The Syntax of the File is wrong or there is nothing to import.")
+            remove(potFilePH)
+            self.__refresh__()
+
 
     def __createTemplate__(self,*event):
         
