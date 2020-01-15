@@ -1,4 +1,4 @@
-![Logo of PyTranslater](https://github.com/GreenSky-Productions/PyTranslater/blob/master/images/PyTranslater.ico)
+![Logo of PyTranslater](https://raw.githubusercontent.com/GreenSky-Productions/PyTranslater/master/images/PyTranslater.ico)
 
 # PyTranslater
 
