@@ -10,8 +10,8 @@ Select you Python Script or you Python Embeded File and scan it for [gettext](ht
 ## Editing
 Editing is easy in PyTranslater. Your has two Columns where the left Column is the Entry ID (This is the part which is written in your Code) and will replaced by gettext with the right Column Value.Your can add a new Entry ID with the `+` in the left Column. 
 
-![Image of PyTranslater](https://github.com/GreenSky-Productions/PyTranslater/blob/master/images/PyTranslater.png)
+![Image of PyTranslater](https://raw.githubusercontent.com/GreenSky-Productions/PyTranslater/master/images/PyTranslater.png)
 
 To Remove a Entry edit it and press the Delete Button in the left bottom corner of the Textbox.
 
-![Image of PyTranslater](https://github.com/GreenSky-Productions/PyTranslater/blob/master/images/EditEntry.png)
+![Image of PyTranslater](https://raw.githubusercontent.com/GreenSky-Productions/PyTranslater/master/images/EditEntry.png)
