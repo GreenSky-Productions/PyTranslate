@@ -1,6 +1,4 @@
-![Logo of PyTranslater](https://raw.githubusercontent.com/GreenSky-Productions/PyTranslater/master/images/PyTranslater.ico)
-
-# PyTranslater
+![Logo of PyTranslater](https://raw.githubusercontent.com/GreenSky-Productions/PyTranslater/master/images/SocialPreviewPyTranslater.png)
 
 is a easy to use Software for Translating you Python Project which works with [gettext](https://docs.python.org/3/library/gettext.html). It has only a few, but powerful functionalities.
 
