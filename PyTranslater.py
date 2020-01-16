@@ -75,9 +75,7 @@ class PyTranslater(Tk):
     
     def createTemplate(self,pyfile,potfile):
         "Create a POT File from a Python Script with gettext Strings"
-        cmd = 'pygettext.exe --no-location -d {} "{}"'.format(potfile.replace(".pot",""),pyfile)
-        print(cmd)
-        system(cmd)
+        system('pygettext.exe --no-location -d {} "{}"'.format(potfile.replace(".pot",""),pyfile))
 
     class NewTemplate(Toplevel):
 
@@ -170,7 +168,6 @@ class PyTranslater(Tk):
 
     def editContent(self,msgid,msg):
         self.saved = False
-        print(msg)
         self.msgs.find(msgid).msgstr = msg
        
     def editID(self,oldmsgid,newmsgid):
