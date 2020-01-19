@@ -1,4 +1,5 @@
-from os import sys,system,remove,replace,path
+from os import system,remove,replace,path,chdir
+import sys
 import getopt
 import polib
 import base64
@@ -8,9 +9,13 @@ from tkinter.messagebox import *
 from tkinter import filedialog
 from tkinter.ttk import *
 import tempfile
-args = sys.argv[1:]
 
-class PyTranslater(Tk):
+localdir = path.dirname(sys.argv[0]).replace("\\","/")
+chdir(localdir)
+
+args = sys.argv[1:]
+print(localdir,args)
+class PyTranslate(Tk):
 
     def __init__(self,file=None,GUI=True):
         self.oheader = None
@@ -18,24 +23,36 @@ class PyTranslater(Tk):
         self.saved = True
         self.msgs  = polib.POFile()
 
-        
         self.GUI = GUI
         Tk.__init__(self)
-        self.title("PyTranslater")
+        self.title("PyTranslate")
+        self.__center__(800,500)
         try:
-            self.iconbitmap("./PyTranslater.ico")
+            self.iconbitmap("./PyTranslate.ico")
         except Exception as err:
             pass
         self.protocol("WM_DELETE_WINDOW",self.__onClose__)
         self.rowconfigure(0,weight=1)
         self.columnconfigure(1,weight=1)
         self.__createGUIContent__()
+        
         if file:
                 self.openFile(file)
+                self.__refresh__()
         if GUI:
             self.mainloop()
         "For IDE, cause VS is stupid"
         
+    def __center__(self,width=None,height=None):
+        """Centering the Window"""
+        windowWidth = width or self.winfo_reqwidth()
+        windowHeight = height or self.winfo_reqheight()
+
+        positionRight = int(self.winfo_screenwidth()/2 - windowWidth/2)
+        positionDown = int(self.winfo_screenheight()/2 - windowHeight/2)
+
+        self.geometry("{}x{}+{}+{}".format(windowWidth,windowHeight,positionRight, positionDown))
+
     def __createGUIContent__(self):
         self.menu = Menu(tearoff=0)
 
@@ -58,24 +75,35 @@ class PyTranslater(Tk):
         self.bind("<Control-q>",self.destroy)
         self.bind("<Control-i>",self.__addViaImport__)
 
-
         self.menu.add_cascade(label="File",menu=self.filemenu)
         self.menu.add_cascade(label="Edit",menu=self.editmenu)
         self.configure(menu=self.menu)
 
         self.lstmsgpan = Panedwindow(self,orient=HORIZONTAL)
         self.lstmsgpan.grid(row=0,column=0,sticky=N+W+E+S,columnspan=2)
-        self.lstMsgId = Listbox(self.lstmsgpan)
+
+        self.lstMsgId = Listbox(self.lstmsgpan,width=62)
         self.lstMsgId.bind("<Double-Button-1>",self.__editMsgID__)
+        self.lstMsgId.bind("<MouseWheel>",self.__OnMouseWheel__)
+        self.lstMsgId.bind("<Return>",self.__editMsgID__)
+        self.lstMsgId.bind("<Delete>",self.__deleteMsgByID__)
+        
         self.lstmsgpan.add(self.lstMsgId)#self.lstMsgId.grid(row=0,column=0,sticky=N+W+E+S)
 
-        self.lstMsgContent = Listbox(self.lstmsgpan)
+        self.lstMsgContent = Listbox(self.lstmsgpan,width=65)
         self.lstMsgContent.bind("<Double-Button-1>",self.__editMsgContent__)
+        self.lstMsgContent.bind("<MouseWheel>",self.__OnMouseWheel__)
+        self.lstMsgContent.bind("<Return>",self.__editMsgContent__)
+        self.lstMsgContent.bind("<Delete>",self.__deleteMsgByContent__)
         self.lstmsgpan.add(self.lstMsgContent)#.grid(row=0,column=1,sticky=N+E+S+W)
+
+        
     
     def createTemplate(self,pyfile,potfile):
         "Create a POT File from a Python Script with gettext Strings"
-        system('pygettext.exe --no-location -d {} "{}"'.format(potfile.replace(".pot",""),pyfile))
+        #TODO Exception Handling for Syntax Problems
+        cmd = 'pygettext.exe --no-location -d {} "{}"'.format(potfile.replace(".pot",""),pyfile)
+        system(cmd)
 
     class NewTemplate(Toplevel):
 
@@ -106,12 +134,18 @@ class PyTranslater(Tk):
             self.createTemplate(pyFilePH,potFilePH)
             try:
                 for entry in polib.pofile(potFilePH):
-                    self.msgs.append(entry)
+                    if not self.msgs.find(entry.msgid):
+                        self.msgs.append(entry)
                 self.saved = False
             except:
                 showerror(title="Failed to Import",message="The Syntax of the File is wrong or there is nothing to import.")
             remove(potFilePH)
             self.__refresh__()
+
+    def __OnMouseWheel__(self,event):
+        self.lstMsgId.yview("scroll", -int(event.delta/120),"units")
+        self.lstMsgContent.yview("scroll",-int(event.delta/120),"units")
+        return "break"
 
 
     def __createTemplate__(self,*event):
@@ -124,7 +158,6 @@ class PyTranslater(Tk):
                 if askyesno(title="Open POT File",message="Do you want to open the created POT file?"):
                     self.openFile(potFilePH)
                     self.__refresh__()
-        "For IDE, cause VS is stupid"
   
     def openFile(self,filepath):
         self.msgs = polib.pofile(filepath)
@@ -138,8 +171,6 @@ class PyTranslater(Tk):
         if filepath:
             self.openFile(filepath)
             self.__refresh__()
-        "For IDE, cause VS is stupid"
-
 
     def save(self,filepath):
         self.msgs.save(filepath)
@@ -168,6 +199,7 @@ class PyTranslater(Tk):
 
     def editContent(self,msgid,msg):
         self.saved = False
+        print(msg)
         self.msgs.find(msgid).msgstr = msg
        
     def editID(self,oldmsgid,newmsgid):
@@ -195,6 +227,9 @@ class PyTranslater(Tk):
             self.attributes("-tool",1)
 
             self.field = Text(self)
+            self.field.bind("<Shift-Return>",self.__okay__)
+            self.field.bind("<Escape>",lambda x:self.destroy())
+            self.field.bind("<Shift-Delete>",self.__delete__)
             self.field.insert(END,content)
             self.field.grid(columnspan=2,sticky=N+E+S+W)
             
@@ -203,24 +238,42 @@ class PyTranslater(Tk):
 
             self.ok = Button(self,text="Okay",command=self.__okay__)
             self.ok.grid(row=1,column=1,sticky=E+S)
+            self.after(1,lambda:self.field.focus_force())
             self.mainloop()
 
-        def __okay__(self):
+
+        def __okay__(self,*event):
             content = self.field.get(0.0,END)[:-1]
             if content != "":
                 self.edit(self.id,content)
                 self.master.__refresh__()
                 self.destroy()
 
-        def __delete__(self):
+        def __delete__(self,*event):
             self.master.deleteItem(self.id)
             self.master.__refresh__()
             self.destroy()
     
+    def __deleteMsgByContent__(self,*event):
+        contid  = self.lstMsgContent.curselection()
+        msgid   = self.lstMsgId.get(contid)
+        self.deleteItem(msgid)
+        self.saved = False
+        self.__refresh__()
+
+    def __deleteMsgByID__(self,*event):
+        id   = self.lstMsgId.curselection()
+        msgid   = self.lstMsgId.get(id)
+        msgid = msgid if msgid != self.lstMsgId.get(END) else ""
+        self.deleteItem(msgid)
+        self.saved = False
+        self.__refresh__()
 
     def __editMsgContent__(self,*event):
         contid  = self.lstMsgContent.curselection()
         msgid   = self.lstMsgId.get(contid)
+        if msgid == self.lstMsgId.get(END):
+            return
         self.ContetEdit(self,msgid,self.msgs.find(msgid).msgstr,self.editContent)
         
     def __editMsgID__(self,*event):
@@ -230,10 +283,14 @@ class PyTranslater(Tk):
         self.ContetEdit(self,msgid,msgid,self.editID)
 
 
-    def __refresh__(self,*event):
+    def __refresh__(self,event=None,focus=True):
         self.filemenu.entryconfig(2,state=DISABLED if self.saved else NORMAL)
         self.filemenu.entryconfig(3,state=DISABLED if self.saved else NORMAL)
         self.filemenu.entryconfig(4,state=NORMAL if self.saved else DISABLED)
+        
+        oldidselect   = self.lstMsgId.curselection() or 0
+        oldcontselect = self.lstMsgContent.curselection() or 0
+        oldyview      = self.lstMsgId.yview()[0]
 
         self.lstMsgId.delete(0,END)
         self.lstMsgContent.delete(0,END)
@@ -241,6 +298,13 @@ class PyTranslater(Tk):
             self.lstMsgId.insert(END,msg.msgid)
             self.lstMsgContent.insert(END,repr(msg.msgstr))
         self.lstMsgId.insert(END,"+".center(10))
+        self.lstMsgContent.insert(END,"")
+
+        self.lstMsgId.yview("moveto",oldyview)
+        self.lstMsgContent.yview("moveto",oldyview)
+
+        self.lstMsgId.select_set(oldidselect) if oldidselect else None
+        self.lstMsgContent.select_set(oldcontselect) if oldcontselect else None
 
     def __unsaved__(self,*event):
         anwser = askyesnocancel(title="Save changes?",message="Do you want to save the file?")
@@ -257,4 +321,4 @@ class PyTranslater(Tk):
         self.destroy()
 
 
-PyTranslater()
+PyTranslate(args[0] if len(args) else None)

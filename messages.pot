@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-04-10 13:27+0200\n"
+"POT-Creation-Date: 2020-01-17 12:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,30 +15,30 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-msgid "SettingsTitle"
+msgid "Username"
 msgstr ""
 
-msgid "LanguageSettings"
+msgid "About Me"
 msgstr ""
 
-msgid "StyleSettings"
+msgid "Firstname"
 msgstr ""
 
-msgid "PrivacySettings"
+msgid "Surname"
 msgstr ""
 
-msgid "NewButton"
+msgid "Email"
 msgstr ""
 
-msgid "SaveButton"
+msgid "Birthday"
 msgstr ""
 
-msgid "CancelButton"
+msgid "Save"
 msgstr ""
 
-msgid "LanguageChangeRestart"
+msgid "Cancel"
 msgstr ""
 
-msgid "MustRestart"
+msgid "Profile Settings broken"
 msgstr ""
 

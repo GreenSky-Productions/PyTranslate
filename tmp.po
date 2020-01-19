@@ -14,29 +14,5 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 
-msgid "SettingsTitle"
-msgstr "SkyPlay Einstellungen"
-
-msgid "LanguageSettings"
-msgstr "Sprache"
-
-msgid "StyleSettings"
-msgstr "Style"
-
-msgid "PrivacySettings"
-msgstr "Privacy"
-
-msgid "NewButton"
-msgstr "Neu"
-
-msgid "SaveButton"
-msgstr "Speichern"
-
-msgid "CancelButton"
-msgstr "Abbrechen"
-
-msgid "LanguageChangeRestart"
-msgstr "Um die Sprachänderungen zu übernehmen muss SkyPlay neugestartet werden.\n\nMöchten Sie jetzt neustarten?"
-
-msgid "MustRestart"
-msgstr "SkyPlay muss neugestartet werden!"
+msgid "Hello World"
+msgstr "Hallo Welt"
