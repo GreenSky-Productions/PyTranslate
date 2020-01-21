@@ -66,7 +66,7 @@ Editing a Entry Value double lcik it in the right Column or select it and press 
 
 ## Remove Entries
 
-Select a Entry and press ´Delete`
+Select a Entry and press Â´Delete`
 [Edit](README.md#edit-entries) a Entry and press the Delete Button in the left bottom Corner.
 
 ## Export your Translation
@@ -90,4 +90,5 @@ Select `File > export` or press `Ctrl + E`
 * `Esc` Cancel edit
 * `Shift+Enter` Confirm change and close Editor
 * `Shift+Backspace` Remove Editor content (not the Entry it self)
+
 
