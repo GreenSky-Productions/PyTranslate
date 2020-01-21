@@ -9,12 +9,12 @@
 * [Was ist PyTranslate](README-DE.md#was-istpytranslate)
 * [Neue Vorlage erstellen](README-DE.md#neue-vorlage-erstellen)
   * [Neue Vorlage aus einem Script erstellen](README-DE.md#neue-vorlage-aus-einem-script-erstellen)
-* [Einträge hinzufügen](README-DE.md#eiträge-hinzufügen)
-  * [Einträge hinzufügen von einem Template](README-DE.md#einträge-hinzufügen-von-einem-template)
-  * [Einträge hinzufügen von einem Script](README-DE.md#einträge-hinzufügen-von-einem-script)
-* [Einträge bearbeiten](README-DE.md#einträge-bearbeiten)
-* [Einträge Löschen](README-DE.md#einträge-löschen)
-* [Übersetzung exportieren](README-DE.md#übersetzung-exportieren)
+* [EintrÃ¤ge hinzufÃ¼gen](README-DE.md#eitrÃ¤ge-hinzufÃ¼gen)
+  * [EintrÃ¤ge hinzufÃ¼gen von einem Template](README-DE.md#eintrÃ¤ge-hinzufÃ¼gen-von-einem-template)
+  * [EintrÃ¤ge hinzufÃ¼gen von einem Script](README-DE.md#eintrÃ¤ge-hinzufÃ¼gen-von-einem-script)
+* [EintrÃ¤ge bearbeiten](README-DE.md#eintrÃ¤ge-bearbeiten)
+* [EintrÃ¤ge LÃ¶schen](README-DE.md#eintrÃ¤ge-lÃ¶schen)
+* [Ãœbersetzung exportieren](README-DE.md#Ã¼bersetzung-exportieren)
 * [Alle Tastenkombinationen](README-DE.md#alle-tastenkombinationen)
 
 ## Was ist PyTranslate
@@ -66,7 +66,7 @@ Editing a Entry Value double lcik it in the right Column or select it and press 
 
 ## Remove Entries
 
-Select a Entry and press ´Delete`
+Select a Entry and press Â´Delete`
 [Edit](README-DE.md#edit-entries) a Entry and press the Delete Button in the left bottom Corner.
 
 ## Export your Translation
@@ -90,4 +90,5 @@ Select `File > export` or press `Ctrl + E`
 * `Esc` Cancel edit
 * `Shift+Enter` Confirm change and close Editor
 * `Shift+Backspace` Remove Editor content (not the Entry it self)
+
 
