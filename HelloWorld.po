@@ -1,0 +1,19 @@
+# My Translation
+# Copyright (C) 2020 My Organization
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+# Project-Id-Version: 1.0.0.0
+# POT-Creation-Date: 2020-01-21 13:53:43.724459
+# PO-Revision-Date: 2020-01-21 13:53:43.724459
+# Last-Translator: Unknown <example@example.com>
+# Language-Team: Someone <example@example.com>
+# MIME-Version: 1.0
+# Content-Type: text/plain; charset=UTF-8
+# Content-Transfer-Encoding: UTF-8
+# Generated-By: PyTranslate 1.2.0.0
+#
+msgid ""
+msgstr ""
+
+msgid "Hello World"
+msgstr "Hallo Welt"

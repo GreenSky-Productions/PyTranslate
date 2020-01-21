@@ -12,6 +12,9 @@
 # directory (including globbing chars, important for Win32).
 # Made docstring fit in 80 chars wide displays using pydoc.
 #
+# 2020-01-20 Philipp-Martin Seelk <philippfilzer1999@gmail.com>
+# Added Arguments to main function for easy embedding into other
+# Python Scripts.
 
 # for selftesting
 try:
@@ -195,7 +198,7 @@ msgstr ""
 
 ''')
 
-
+
 def usage(code, msg=''):
     print(__doc__ % globals(), file=sys.stderr)
     if msg:
@@ -203,7 +206,7 @@ def usage(code, msg=''):
     sys.exit(code)
 
 
-
+
 def make_escapes(pass_nonascii):
     global escapes, escape
     if pass_nonascii:
@@ -257,7 +260,7 @@ def normalize(s, encoding):
         s = '""\n"' + lineterm.join(lines) + '"'
     return s
 
-
+
 def containsAny(str, set):
     """Check whether 'str' contains ANY of the chars in 'set'"""
     return 1 in [c in str for c in set]
@@ -306,7 +309,7 @@ def getFilesForName(name):
 
     return []
 
-
+
 class TokenEater:
     def __init__(self, options):
         self.__options = options
@@ -461,12 +464,14 @@ class TokenEater:
                 print('msgstr ""\n', file=fp)
 
 
-
-def main():
+
+def main(*argopts):
     global default_keywords
     try:
+        argv = list(argopts) or sys.argv[1:]
+        print("Given Args",argv)
         opts, args = getopt.getopt(
-            sys.argv[1:],
+            argv,
             'ad:DEhk:Kno:p:S:Vvw:x:X:',
             ['extract-all', 'default-domain=', 'escape', 'help',
              'keyword=', 'no-default-keywords',

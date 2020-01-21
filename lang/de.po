@@ -1,0 +1,93 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-01-20 11:28+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=cp1252\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+msgid "Create new POT File"
+msgstr "Neue POT Datei erstellen"
+
+msgid "Open"
+msgstr "Öffnen"
+
+msgid "Save"
+msgstr "Speichern"
+
+msgid "Save as"
+msgstr "Speichern als"
+
+msgid "Export"
+msgstr "Exportieren"
+
+msgid "Quit"
+msgstr "Schließen"
+
+msgid "Add Entrys from other Script"
+msgstr "Einträge von Script hinzufügen"
+
+msgid "File"
+msgstr "Datei"
+
+msgid "Edit"
+msgstr "Bearbeiten"
+
+msgid "Failed to Create Template"
+msgstr "Erstellen der Vorlage fehlgeschlagen"
+
+msgid "Okay"
+msgstr "Okay"
+
+msgid "Python File"
+msgstr "Python Datei"
+
+msgid "Failed to Import"
+msgstr "Import fehlgeschlagen"
+
+msgid "The Syntax of the File is wrong or there is nothing to import."
+msgstr "Die Syntax der Datei ist falsch oder enthält nichts zum importieren."
+
+msgid "Save POT"
+msgstr "POT Speichern"
+
+msgid "Do you want to open the created POT file?"
+msgstr "Möchten Sie die erstellte POT Datei erstellen?"
+
+msgid "Open POT File"
+msgstr "POT Datei öffnen"
+
+msgid "Open POT or PO File"
+msgstr "POT oder PO Datei öffnen"
+
+msgid "Translation Files"
+msgstr "Übersetzungsdatein"
+
+msgid "Save as PO"
+msgstr "Speichern als PO"
+
+msgid "Translation File"
+msgstr "Übersetzungsdatei"
+
+msgid "Compiled Translation File"
+msgstr "Kompilierte Übersetzungsdatei"
+
+msgid "Export as MO"
+msgstr "Exportieren als MO"
+
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "Do you want to save the file?"
+msgstr "Möchten Sie die Datei Speichern?"
+
+msgid "Save changes?"
+msgstr "Änderungen speichern?"

@@ -1,0 +1,114 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-01-20 11:28+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=cp1252\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+msgid "Create new POT File"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Save as"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Quit"
+msgstr ""
+
+msgid "Add Entrys from other Script"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Failed to Create Template"
+msgstr ""
+
+msgid "Okay"
+msgstr ""
+
+msgid "Python File"
+msgstr ""
+
+msgid "Failed to Import"
+msgstr ""
+
+msgid "The Syntax of the File is wrong or there is nothing to import."
+msgstr ""
+
+msgid "Save POT"
+msgstr ""
+
+msgid "Do you want to open the created POT file?"
+msgstr ""
+
+msgid "Open POT File"
+msgstr ""
+
+msgid "Open POT or PO File"
+msgstr ""
+
+msgid "Translation Files"
+msgstr ""
+
+msgid "Save as PO"
+msgstr ""
+
+msgid "Translation File"
+msgstr ""
+
+msgid "Compiled Translation File"
+msgstr ""
+
+msgid "Export as MO"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Do you want to save the file?"
+msgstr ""
+
+msgid "Save changes?"
+msgstr ""
+
+msgid "Create new POT File from Script"
+msgstr ""
+
+msgid "New Template - PyTranslate"
+msgstr ""
+
+msgid "Do you want to save it as po File?"
+msgstr ""
+
+msgid "Templates can't have content"
+msgstr ""
+
+msgid "Add Entrys from other Template"
+msgstr ""
+
+msgid "Work in Progress"
+msgstr ""
+
+msgid "Template File"
+msgstr ""
