@@ -22,73 +22,74 @@
 ![Image of PyTranslate](https://raw.githubusercontent.com/GreenSky-Productions/PyTranslate/master/images/PyTranslate.png)
 
 
-PyTranslate is a easy to use software to translate your Python Project according to the I18N of [gettext](https://docs.python.org/3/library/gettext.html).
-It can create a translation template (.pot) from your Python scripts or Python embedded Files. 
-Which you can easily edit in PyTranslate and use them to create a compiled Translation File (.mo).
+PyTranslate ist ein einfaches Programm für das Übersetzen deiner Python Projekte mit dem I18N Standard von [gettext](https://docs.python.org/3/library/gettext.html).
+Es kann ein Übersetzungsvorlage aus deinen Python Script oder Python eingebettete Datein erstellen,
+welche du ganz einfach in Pytranslate bearebiten kannst um am sie am Ende zu kompilieren.
 
-## Create new Template
+## Neue Vorlage erstellen
 
-**Currently Work in Progress**
+**Momentan noch in arbeit**
 
-To create a new Template from scretch Select `File > Create new Template` or press `Ctrl+N`.
+Um ein neue Vorlage von Grund auf zu erstellen
 
-### Create your Template from a Script
+Wähle `Datei > Neue Vorlage erstellen` oder drücke `Ctrl+N`.
 
-You can create a new Template from a Script, where all Entries will filterd and Added to the new Template.
+### Neue Vorlage aus einem Script erstellen
 
-Select `File > Create new Template from Script` or press `Shift+Ctrl+N`
+Du kannst ein neue Vorlage aus einem Script heraus erstellen, wo dann alle Einträge ausgelesen werden und zu neuen Vorlage hinzugefügt werden.
 
-Choice you File which will be scanned and you Save File.
+Wähle `Datei > Erstelle neue Vorlage aus Script`
 
-## Add Entries
+## Einträge hinzufügen
 
-Adding a new Entry will you archive over double clicking the `+` in the left column or select it and press `Enter`
+Einen neuen Eintrg hinzuzufügen geht mit einen doppel klick auf das `+` in der Linken Spalte oder wähle dieses aus und drücke `Enter`
 
-### Add Entries from other Templates
+### Einträge hinzufügen von einem Template
 
-You can add Entries from other Templates for the Case your Template has changed and you want to add the Entries to you Translation.
+Du kannst Einträge hinzufügen von einer andern Vorlage, falls sich dein Vorlage geändert hat und du diese Einträge zu deiner Übersetzung hinzufügen möchtest.
 
-Select `Edit > Add Entries from a Template` or press `Ctrl+I` and choice you Template File.
+Wähle `Bearbeiten > Einträge hinzufügen aus Vorlage` oder drücke `Ctrl+I` und wähle dein Vorlage aus.
 
-### Add Entries from other Scripts
+### Einträge hinzufügen von einem Script
 
-You can also add Entries from other Scripts to your Translation or Template. 
+Du kannst auch Einträge aus andern Scripts zu deiener Vorlage oder Übersetzung hinzufügen.
 
-Select `Edit > Add Entries from Script` or press `Shift+Ctrl+I`
+Wähle `Bearbeiten > Einträge hinzufügen aus Script` oder drücke `Shift+Ctrl+I` 
 
-## Edit Entries
+## Einträge bearbeiten
 
-Editing a Entry ID double click it in the left Column or select it and press `Enter`.
+Bearbeite eine Eintrags ID indem du in der linken Spalte doppelklickst oder sie auswählst und `enter` drückst.
 
-Editing a Entry Value double lcik it in the right Column or select it and press `Enter`.
+Bearbeite den Eintrags Inhalt indem du in der rechten Spalte doppelklickst oder sie auswählst und `enter` drückst.
 
-![Image of PyTranslate](https://raw.githubusercontent.com/GreenSky-Productions/PyTranslate/master/images/EditEntry.png)
+![Eintragseditor](https://raw.githubusercontent.com/GreenSky-Productions/PyTranslate/master/images/EditEntry.png)
 
-## Remove Entries
+## Einträge Löschen
 
-Select a Entry and press ´Delete`
-[Edit](README-DE.md#edit-entries) a Entry and press the Delete Button in the left bottom Corner.
+Wähle ein Eintrag und drücke `Entf` oder
+[bearbeite](README-DE.md#edit-entries) es und drücke den Löschen Knopf links unten in der Ecke.
 
-## Export your Translation
-For finally use your translation you must in the most cases compile your Translation.
-Select `File > export` or press `Ctrl + E`
+## Übersetzung exportieren
+Um deine Überstzung schlussendlich benutzen zu können musst du diese kompielieren.
 
-## All Keybinds
+Wähle `Datei > Exportieren` oder drücke `Ctrl + E`
 
-* `Ctrl+N` Create a new Template
-* `Shift+Ctrl+N` Create a new Template from a Script
-* `Ctrl+S` Save File
-* `Shift+Ctrl+S` Save as
-* `Ctrl+E` Export
-* `Ctrl+Q` Quit
-* `Ctrl+I` Add Entries from Template
-* `Shift+Ctrl+I` Add Entries from Script
-* `Arrow Up` and `Arrow Down` to navigate trought the Entries
-* `Enter` Edit a Entry
+## Alle Tastenkombinationen
 
-**Entrie Editor Ekybinds**
-* `Esc` Cancel edit
-* `Shift+Enter` Confirm change and close Editor
-* `Shift+Backspace` Remove Editor content (not the Entry it self)
+* `Ctrl+N` Erstelle eine neue Vorlage
+* `Shift+Ctrl+N` Erstelle eine neue Vorlage aus einem Script
+* `Ctrl+S` Speichert die atkuelle Datei
+* `Shift+Ctrl+S` Speichert als neue Datei
+* `Ctrl+E` Exportiert/Kompieliert deine Datei
+* `Ctrl+Q` Beendet das Programm
+* `Ctrl+I` Fügt Einträge von einer Vorlage hinzu
+* `Shift+Ctrl+I` Fügt Einträge von einem Script hinzu
+* `Pfeif-Hoch`und `Pfeil-Runter` Navigieren durch die Eintragsliste
+* `Enter` Bearbeitet den angewählten Eintrag
+
+**Eintragseditor Tastenkombinationen**
+* `Esc` Abbrechen des Bearbeitens
+* `Shift+Enter` Bestätigt und schließt die bearbeitung
+* `Shift+Backspace` Löscht Editor Inhalt (nicht den Eintrag als solches)
 
 
