@@ -2,7 +2,7 @@
 [English | [German](README-DE.md)]
 # PyTranslate
 
-[![Release](https://img.shields.io/github/downloads/GreenSky-Productions/PyTranslate/v1.1/total?color=green)](https://github.com/GreenSky-Productions/PyTranslate/releases/latest)
+[![Release](https://img.shields.io/github/downloads/GreenSky-Productions/PyTranslate/v1.1/total?color=green)](https://github.com/GreenSky-Productions/PyTranslate/releases/download/v1.1/PyTranslate.exe)
 
 
 
