@@ -19,12 +19,11 @@
 
 ## Was ist PyTranslate
 
-![Image of PyTranslate](https://raw.githubusercontent.com/GreenSky-Productions/PyTranslate/master/images/PyTranslate.png)
-
-
 PyTranslate ist ein einfaches Programm für das Übersetzen deiner Python Projekte mit dem I18N Standard von [gettext](https://docs.python.org/3/library/gettext.html).
-Es kann ein Übersetzungsvorlage aus deinen Python Script oder Python eingebettete Datein erstellen,
-welche du ganz einfach in Pytranslate bearebiten kannst um am sie am Ende zu kompilieren.
+Es kann Übersetzungsvorlagen aus deinen Python Scripts oder Python eingebettete Datein erstellen,
+welche du ganz einfach in PyTranslate bearbeiten kannst um sie am Ende zu kompilieren.
+
+![Image of PyTranslate](https://raw.githubusercontent.com/GreenSky-Productions/PyTranslate/master/images/PyTranslate.png)
 
 ## Neue Vorlage erstellen
 
